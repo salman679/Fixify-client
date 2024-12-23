@@ -1,5 +1,6 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { motion } from "motion/react";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -46,12 +47,30 @@ export default function Slider() {
               >
                 <div className="absolute inset-0 bg-black text-left bg-opacity-50 flex items-center justify-center ">
                   <div className="text-left w-full px-14 md:px-24">
-                    <h2 className="text-3xl  sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold max-w-xs md:max-w-lg">
+                    <motion.h2
+                      animate={{ opacity: 1, y: [-50, 0] }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: "mirror",
+                      }}
+                      initial={{ opacity: 0, y: -50 }}
+                      className="text-3xl  sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold max-w-xs md:max-w-lg"
+                    >
                       {banner.title}
-                    </h2>
-                    <p className="text-white  text-lg sm:text-xl md:text-2xl mt-2 max-w-xs  md:max-w-xl">
+                    </motion.h2>
+                    <motion.p
+                      animate={{ opacity: 1, x: [-50, 0] }}
+                      initial={{ opacity: 0, x: -50 }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        repeatType: "mirror",
+                      }}
+                      className="text-white  text-lg sm:text-xl md:text-2xl mt-2 max-w-xs  md:max-w-xl"
+                    >
                       {banner.description}
-                    </p>
+                    </motion.p>
                   </div>
                 </div>
               </div>
