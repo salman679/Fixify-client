@@ -8,29 +8,28 @@ import "swiper/css/pagination";
 export default function Slider() {
   const banners = [
     {
-      title: "Epic Adventures",
+      title: "Reliable Home Repairs",
       description:
-        "Experience the thrill of epic journeys in a world beyond imagination.",
-      image: "https://i.ibb.co.com/wc6K7Vc/scale.webp",
+        "Expert solutions for all your home maintenance and repair needs. Fast, efficient, and affordable.",
+      image: "https://i.ibb.co.com/Vj9rMJS/home-repairs-2-640w.webp",
     },
     {
-      title: "Romantic Escapes",
+      title: "Your Trusted Handyman",
       description:
-        "A love story that will touch your heart and stay with you forever.",
-      image:
-        "https://i.ibb.co.com/Mkh7xmL/romantic-dining-on-the-beach-at-pacific-resort-aitutaki.jpg",
+        "Professional handyman services to tackle any job, big or small. Your home in safe hands.",
+      image: "https://i.ibb.co.com/b2BLYSx/Handyman-Agency.jpg",
     },
     {
-      title: "Action Blockbuster",
+      title: "Quality You Can Trust",
       description:
-        "Explosive action sequences and breathtaking stunts await you.",
-      image: "https://i.ibb.co.com/SB6CJFF/maxresdefault.jpg",
+        "From plumbing to electrical work, our certified experts ensure top-notch quality and durability.",
+      image: "https://i.ibb.co.com/Jj3QKZd/202104153903-Apr.jpg",
     },
   ];
 
   return (
     <div className="">
-      <div className="container mx-auto px-6 ">
+      <div className="container mx-auto px-4 md:px-6 ">
         <Swiper
           modules={[Navigation, Pagination, Autoplay]}
           navigation
@@ -42,19 +41,17 @@ export default function Slider() {
           {banners.map((banner, index) => (
             <SwiperSlide key={index}>
               <div
-                className="relative h-[600px] bg-cover bg-center"
+                className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-cover bg-center"
                 style={{ backgroundImage: `url(${banner.image})` }}
               >
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center">
-                  <div className="pl-24">
-                    <div className="flex flex-col justify-center">
-                      <h2 className="text-7xl text-white font-bold">
-                        {banner.title}
-                      </h2>
-                      <p className="text-white text-2xl mt-2">
-                        {banner.description}
-                      </p>
-                    </div>
+                <div className="absolute inset-0 bg-black text-left bg-opacity-50 flex items-center justify-center ">
+                  <div className="text-left w-full px-14 md:px-24">
+                    <h2 className="text-3xl  sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold max-w-xs md:max-w-lg">
+                      {banner.title}
+                    </h2>
+                    <p className="text-white  text-lg sm:text-xl md:text-2xl mt-2 max-w-xs  md:max-w-xl">
+                      {banner.description}
+                    </p>
                   </div>
                 </div>
               </div>

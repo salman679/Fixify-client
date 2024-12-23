@@ -2,8 +2,8 @@ import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 
 function Footer() {
   return (
-    <footer className=" bg-gray-300 dark:bg-gray-800 dark:text-white py-8 px-4">
-      <div className="container mx-auto px-4">
+    <footer className=" bg-gray-300 border-t dark:bg-gray-800 dark:text-white py-8 px-4">
+      <div className="container mx-auto px-4 ">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Website Name */}
           <div>

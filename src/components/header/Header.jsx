@@ -3,6 +3,7 @@ import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useAuth } from "../../contexts/AuthContext";
+import { HiOutlineMenuAlt2 } from "react-icons/hi";
 
 export default function Header() {
   const { user, Logout } = useAuth();
@@ -47,12 +48,55 @@ export default function Header() {
     <div className="dark:bg-gray-900">
       <div className="navbar container mx-auto flex justify-between items-center py-4 px-6">
         <div className="navbar-start w-auto">
+          <div className="dropdown dropdown-end group md:hidden">
+            <div role="button" className="btn btn-ghost btn-circle avatar">
+              <div className="flex items-center justify-center">
+                <HiOutlineMenuAlt2 className="text-2xl dark:text-white" />
+              </div>
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content bg-base-100 border left-0 dark:border-gray-700 shadow-md rounded-box z-50 w-52 p-2 dark:bg-gray-800 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
+            >
+              <li>
+                <Link to="/" className="dark:text-white">
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="dark:text-white">
+                  Services
+                </Link>
+              </li>
+              {user ? (
+                <>
+                  <li>
+                    <Link to="/dashboard/add-service" className="block ">
+                      Add Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/manage-service" className="block ">
+                      Manage Service
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/booked-services" className="block ">
+                      Booked Services
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/service-to-do" className="block ">
+                      Service To-Do
+                    </Link>
+                  </li>
+                </>
+              ) : (
+                ""
+              )}
+            </ul>
+          </div>
           <Link to="/" className="btn btn-ghost dark:text-white text-xl">
-            {/* <img
-              src="/logo.png"
-              alt="Fixify Logo"
-              className="h-8 inline mr-2"
-            /> */}
             Fixify
           </Link>
         </div>
@@ -71,7 +115,7 @@ export default function Header() {
             {user ? (
               <li className="relative group">
                 <button className="dark:text-white">Dashboard</button>
-                <ul className="absolute hidden z-50 py-2 px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-lg dark:text-white mt-9 w-40">
+                <ul className="absolute hidden z-50 py-2 border px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40">
                   <li>
                     <Link
                       to="/dashboard/add-service"
@@ -93,7 +137,7 @@ export default function Header() {
                       to="/dashboard/booked-services"
                       className="block px-4 py-2"
                     >
-                      Booked-Services
+                      Booked Services
                     </Link>
                   </li>
                   <li>
@@ -101,31 +145,27 @@ export default function Header() {
                       to="/dashboard/service-to-do"
                       className="block px-4 py-2"
                     >
-                      Service-To-Do
+                      Service To-Do
                     </Link>
                   </li>
                 </ul>
               </li>
             ) : (
-              <li>
-                <Link to="/auth/login" className="dark:text-white">
-                  Log-in
-                </Link>
-              </li>
+              ""
             )}
           </ul>
         </div>
-        <div className="flex-none gap-2">
-          <div className="form-control">
+        <div className="flex items-center gap-4">
+          <div className="form-control hidden sm:block">
             <input
               type="text"
               placeholder="Search"
-              className="input input-bordered"
+              className="input input-bordered w-full sm:w-64"
             />
           </div>
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="py-2 p-2 mx-4 bg-gray-300 dark:bg-gray-700 rounded-full"
+            className=" p-3 md:mx-2 bg-gray-300 dark:bg-gray-700 rounded-full"
           >
             {darkMode ? (
               <MdLightMode className="text-xl" />
@@ -140,7 +180,7 @@ export default function Header() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Avatar"
-                    src={user.photoURL || "/default-avatar.png"}
+                    src={user?.photoURL || "/default-avatar.png"}
                   />
                 </div>
               </div>
@@ -150,7 +190,7 @@ export default function Header() {
               >
                 <li>
                   <a className="justify-between dark:text-white">
-                    {user.displayName || user.name}
+                    {user?.displayName || user?.name}
                   </a>
                 </li>
                 <li>
@@ -162,7 +202,7 @@ export default function Header() {
             </div>
           ) : (
             <Link to="/auth/login">
-              <button className="btn">Log-in</button>
+              <button className="btn hidden sm:inline-block">Log-in</button>
             </Link>
           )}
         </div>

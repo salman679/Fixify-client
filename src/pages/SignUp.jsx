@@ -1,6 +1,6 @@
 import { IoEyeOffSharp, IoEyeSharp } from "react-icons/io5";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
 
@@ -71,7 +71,7 @@ export default function SignUp() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+    <div className="min-h-screen py-12 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
       <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Create an Account
@@ -175,9 +175,9 @@ export default function SignUp() {
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             Already have an account?{" "}
-            <a href="/auth/login" className="text-blue-500 hover:underline">
+            <Link to={"/auth/login"} className="text-blue-500 hover:underline">
               Login here
-            </a>
+            </Link>
           </p>
         </div>
       </div>
