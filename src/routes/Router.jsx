@@ -7,6 +7,7 @@ import AllServicesPage from "../components/services/AllServices";
 import ServiceDetails from "../components/services/ServiceDetails";
 import ConfirmBooking from "../components/services/ConfirmBooking";
 import AddService from "../pages/AddService";
+import BookedServices from "../pages/BookedServices";
 
 export const router = createBrowserRouter([
   {
@@ -58,7 +59,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "booked-services",
-            element: <div>My Bookings</div>,
+            element: <BookedServices />,
           },
           {
             path: "service-to-do",

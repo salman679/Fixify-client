@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
@@ -16,6 +16,8 @@ export default function ConfirmBooking() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
@@ -53,6 +55,7 @@ export default function ConfirmBooking() {
             timer: 1500,
           });
 
+          navigate("/services");
           reset();
         }
       });

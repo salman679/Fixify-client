@@ -146,7 +146,7 @@ export default function Header() {
             {user ? (
               <li className="relative group">
                 <button className="dark:text-white">Dashboard</button>
-                <ul className="absolute hidden z-50 py-2 px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40 dark:border-gray-700">
+                <ul className="absolute hidden  z-50 py-2 px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40 dark:border-gray-700">
                   <li>
                     <Link
                       to="/dashboard/add-service"
@@ -213,7 +213,7 @@ export default function Header() {
                 <div className="w-10 rounded-full">
                   <img
                     alt="Avatar"
-                    src={user?.photoURL || "/default-avatar.png"}
+                    src={user?.photoURL || "https://pleceholder.co/150x150"}
                   />
                 </div>
               </div>

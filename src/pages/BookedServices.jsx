@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function BookedServices() {
   const { user } = useAuth();
@@ -7,14 +7,14 @@ export default function BookedServices() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/bookings?email=${user.email}`)
+    fetch(`${import.meta.env.VITE_MAIN_URL}/bookings?email=${user?.email}`)
       .then((res) => res.json())
       .then((data) => {
         setBookedServices(data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
-  }, [user.email]);
+  }, [user?.email]);
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-12 px-6">
@@ -26,7 +26,7 @@ export default function BookedServices() {
           <div className="flex justify-center items-center">
             <span className="loading loading-spinner loading-lg"></span>
           </div>
-        ) : bookedServices.length > 0 ? (
+        ) : bookedServices?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {bookedServices.map((service) => (
               <div
