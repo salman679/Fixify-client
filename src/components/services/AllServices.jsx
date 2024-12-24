@@ -15,7 +15,10 @@ export default function AllServicesPage() {
 
       <div className="grid gap-6">
         {services.map((service) => (
-          <div key={service._id} className="card bg-base-100 shadow-xl">
+          <div
+            key={service._id}
+            className="card bg-base-100 dark:bg-gray-900 dark:text-white shadow-xl"
+          >
             <figure>
               <img
                 src={service.serviceImage}

@@ -13,7 +13,7 @@ export default function ServiceDetails() {
 
   return (
     <div className="container mx-auto px-4 py-10">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-lg overflow-hidden">
         <img
           src={service?.serviceImage}
           alt={service?.serviceName}

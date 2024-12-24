@@ -59,34 +59,52 @@ export default function Header() {
               className="menu menu-sm dropdown-content bg-base-100 border left-0 dark:border-gray-700 shadow-md rounded-box z-50 w-52 p-2 dark:bg-gray-800 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
             >
               <li>
-                <Link to="/" className="dark:text-white">
+                <Link
+                  to="/"
+                  className="dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                >
                   Home
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="dark:text-white">
+                <Link
+                  to="/services"
+                  className="dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                >
                   Services
                 </Link>
               </li>
               {user ? (
                 <>
                   <li>
-                    <Link to="/dashboard/add-service" className="block ">
+                    <Link
+                      to="/dashboard/add-service"
+                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                    >
                       Add Service
                     </Link>
                   </li>
                   <li>
-                    <Link to="/dashboard/manage-service" className="block ">
+                    <Link
+                      to="/dashboard/manage-service"
+                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                    >
                       Manage Service
                     </Link>
                   </li>
                   <li>
-                    <Link to="/dashboard/booked-services" className="block ">
+                    <Link
+                      to="/dashboard/booked-services"
+                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                    >
                       Booked Services
                     </Link>
                   </li>
                   <li>
-                    <Link to="/dashboard/service-to-do" className="block ">
+                    <Link
+                      to="/dashboard/service-to-do"
+                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
+                    >
                       Service To-Do
                     </Link>
                   </li>
@@ -115,11 +133,11 @@ export default function Header() {
             {user ? (
               <li className="relative group">
                 <button className="dark:text-white">Dashboard</button>
-                <ul className="absolute hidden z-50 py-2 border px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40">
+                <ul className="absolute hidden z-50 py-2 px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40 dark:border-gray-700">
                   <li>
                     <Link
                       to="/dashboard/add-service"
-                      className="block px-4 py-2"
+                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
                     >
                       Add Service
                     </Link>
@@ -127,7 +145,7 @@ export default function Header() {
                   <li>
                     <Link
                       to="/dashboard/manage-service"
-                      className="block px-4 py-2"
+                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
                     >
                       Manage Service
                     </Link>
@@ -135,7 +153,7 @@ export default function Header() {
                   <li>
                     <Link
                       to="/dashboard/booked-services"
-                      className="block px-4 py-2"
+                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
                     >
                       Booked Services
                     </Link>
@@ -143,7 +161,7 @@ export default function Header() {
                   <li>
                     <Link
                       to="/dashboard/service-to-do"
-                      className="block px-4 py-2"
+                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
                     >
                       Service To-Do
                     </Link>
@@ -160,12 +178,12 @@ export default function Header() {
             <input
               type="text"
               placeholder="Search"
-              className="input input-bordered w-full sm:w-64"
+              className="input input-bordered w-full sm:w-64 dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-400 dark:focus:ring-gray-600 dark:focus:border-gray-600"
             />
           </div>
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className=" p-3 md:mx-2 bg-gray-300 dark:bg-gray-700 rounded-full"
+            className=" p-3 md:mx-2 bg-gray-300 dark:bg-gray-700 dark:text-white rounded-full"
           >
             {darkMode ? (
               <MdLightMode className="text-xl" />

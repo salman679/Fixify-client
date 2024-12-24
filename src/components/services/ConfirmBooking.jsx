@@ -7,6 +7,8 @@ export default function ConfirmBooking() {
   const [service, setService] = useState({});
   const { user } = useAuth();
 
+  function handlePurchase() {}
+
   useEffect(() => {
     fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
       .then((res) => res.json())

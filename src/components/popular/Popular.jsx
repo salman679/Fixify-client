@@ -27,7 +27,10 @@ export default function PopularServices() {
       <h2 className="text-4xl font-bold text-center mb-8">Popular Services</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {services.slice(0, 6).map((service) => (
-          <div key={service.id} className="card bg-base-100 shadow-xl">
+          <div
+            key={service.id}
+            className="card bg-base-100 dark:bg-gray-900 dark:text-white shadow-xl"
+          >
             <figure>
               <img
                 src={service.serviceImage}
