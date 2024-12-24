@@ -1,16 +1,36 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import { useSearch } from "../../contexts/SearchContext";
 
 export default function AllServicesPage() {
   const [services, setServices] = useState([]);
+  const { searchTerm } = useSearch();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services`)
+    fetch(`${import.meta.env.VITE_MAIN_URL}/services?searchTerm=${searchTerm}`)
       .then((res) => res.json())
       .then((data) => setServices(data));
-  }, []);
+  }, [searchTerm]);
+
+  if (services.length === 0) {
+    return (
+      <div className="container mx-auto px-4 py-10">
+        <Helmet>
+          <title>All Services - Fixify</title>
+        </Helmet>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          No Services Found
+        </h1>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-10">
+      <Helmet>
+        <title>All Services - Fixify</title>
+      </Helmet>
       <h1 className="text-3xl font-bold text-center mb-8">All Services</h1>
 
       <div className="grid gap-6">

@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function SignUp() {
   const { updateUser, createUser, signInWithGoogle } = useAuth();
@@ -72,6 +73,9 @@ export default function SignUp() {
 
   return (
     <div className="min-h-screen py-12 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+      <Helmet>
+        <title>Sign Up - Fixify</title>
+      </Helmet>
       <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
           Create an Account

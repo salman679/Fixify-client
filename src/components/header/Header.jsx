@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useAuth } from "../../contexts/AuthContext";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
+import { useSearch } from "../../contexts/SearchContext";
 
 export default function Header() {
   const { user, Logout } = useAuth();
+  const { searchTerm, setSearchTerm } = useSearch();
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia(
@@ -14,6 +17,16 @@ export default function Header() {
     ).matches;
     return storedTheme ? storedTheme === "dark" : prefersDark;
   });
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (pathname === "/services") {
+      setIsSearchOpen(true);
+    } else {
+      setIsSearchOpen(false);
+    }
+  }, [pathname]);
 
   useEffect(() => {
     if (darkMode) {
@@ -174,10 +187,12 @@ export default function Header() {
           </ul>
         </div>
         <div className="flex items-center gap-4">
-          <div className="form-control hidden sm:block">
+          <div className={`form-control ${isSearchOpen ? "block" : "hidden"}`}>
             <input
               type="text"
               placeholder="Search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               className="input input-bordered w-full sm:w-64 dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-400 dark:focus:ring-gray-600 dark:focus:border-gray-600"
             />
           </div>

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 export default function AddService() {
   const { user } = useAuth();
@@ -34,6 +35,9 @@ export default function AddService() {
 
   return (
     <div className="flex justify-center py-10 items-center min-h-screen bg-gray-100 dark:bg-gray-800 px-4">
+      <Helmet>
+        <title>Add Service - Fixify</title>
+      </Helmet>
       <div className="bg-white dark:bg-gray-900 p-8 rounded-lg w-full max-w-3xl shadow-lg">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-3xl font-extrabold text-center text-gray-800 dark:text-white">

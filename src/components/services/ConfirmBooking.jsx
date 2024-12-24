@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 export default function ConfirmBooking() {
   const { id } = useParams();
@@ -59,6 +60,9 @@ export default function ConfirmBooking() {
 
   return (
     <div className="flex justify-center py-10 items-center min-h-screen bg-gray-100 dark:bg-gray-800 dark:text-gray-100 px-4">
+      <Helmet>
+        <title>Confirm Booking - Fixify</title>
+      </Helmet>
       <div className="bg-white dark:bg-gray-900 p-8 rounded-lg w-full max-w-4xl shadow-lg">
         <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800 dark:text-white">
           Confirm Booking

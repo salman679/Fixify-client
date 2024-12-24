@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext, useState } from "react";
 import Swal from "sweetalert2";
+import { Helmet } from "react-helmet-async";
 
 export default function Login() {
   const { signIn, signInWithGoogle } = useContext(AuthContext);
@@ -59,6 +60,9 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+      <Helmet>
+        <title>Login - Fixify</title>
+      </Helmet>
       <div className="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
         <h2 className="text-2xl font-bold text-center dark:text-white text-gray-800 mb-6">
           Login to Your Account

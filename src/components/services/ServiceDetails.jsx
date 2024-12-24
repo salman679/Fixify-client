@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
 
 export default function ServiceDetails() {
@@ -13,6 +14,12 @@ export default function ServiceDetails() {
 
   return (
     <div className="container mx-auto px-4 py-10">
+      <Helmet>
+        <title>
+          {`${service?.serviceName ? service?.serviceName : "Service Details"}`}{" "}
+          - Fixify
+        </title>
+      </Helmet>
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 dark:text-white shadow-lg rounded-lg overflow-hidden">
         <img
           src={service?.serviceImage}
