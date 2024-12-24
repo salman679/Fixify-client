@@ -28,7 +28,7 @@ export default function PopularServices() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {services.slice(0, 6).map((service) => (
           <div
-            key={service.id}
+            key={service._id}
             className="card bg-base-100 dark:bg-gray-900 dark:text-white shadow-xl"
           >
             <figure>
