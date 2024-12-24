@@ -3,7 +3,8 @@ import Main from "../layouts/Main";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
-import AllServicesPage from "../components/AllServices";
+import AllServicesPage from "../components/services/AllServices";
+import ServiceDetails from "../components/services/ServiceDetails";
 
 export const router = createBrowserRouter([
   {
@@ -20,8 +21,8 @@ export const router = createBrowserRouter([
         element: <AllServicesPage />,
       },
       {
-        path: "service/:id",
-        element: <AllServicesPage />,
+        path: "services/:id",
+        element: <ServiceDetails />,
       },
 
       {

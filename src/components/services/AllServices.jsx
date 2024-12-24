@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function AllServicesPage() {
   const [services, setServices] = useState([]);
@@ -49,7 +50,12 @@ export default function AllServicesPage() {
                 <span className="text-xl font-bold">
                   ${service.servicePrice}
                 </span>
-                <button className="btn btn-primary">View Details</button>
+                <Link
+                  to={`/services/${service._id}`}
+                  className="btn btn-primary"
+                >
+                  View Details
+                </Link>
               </div>
             </div>
           </div>
