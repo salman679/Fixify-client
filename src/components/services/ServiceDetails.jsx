@@ -1,27 +1,15 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";
+import { Link, useParams } from "react-router-dom";
 
 export default function ServiceDetails() {
-  const { user } = useAuth();
   const { id } = useParams();
   const [service, setService] = useState({});
-  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
       .then((res) => res.json())
       .then((data) => setService(data));
   }, [id]);
-
-  const handleBookNow = () => {
-    setShowModal(true);
-  };
-
-  const handlePurchase = () => {
-    alert("Service booked successfully!");
-    setShowModal(false);
-  };
 
   return (
     <div className="container mx-auto px-4 py-10">
@@ -53,77 +41,12 @@ export default function ServiceDetails() {
 
           <div className="flex justify-between items-center">
             <span className="text-3xl font-bold">${service?.servicePrice}</span>
-            <button className="btn btn-primary" onClick={handleBookNow}>
+            <Link to={`/booking/${id}`} className="btn btn-primary">
               Book Now
-            </button>
+            </Link>
           </div>
         </div>
       </div>
-
-      {showModal && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center p-4">
-          <div className="bg-white p-6 sm:p-8 rounded-lg w-full max-w-lg sm:max-w-xl lg:max-w-2xl">
-            <h2 className="text-2xl font-bold mb-6 text-center">
-              Confirm Booking
-            </h2>
-            <div className="grid gap-4">
-              <input
-                type="text"
-                value={service?._id}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <input
-                type="text"
-                value={service?.serviceName}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <input
-                type="text"
-                value={service?.providerName}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <input
-                type="text"
-                value={user.email}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <input
-                type="text"
-                value={user.name}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <input type="date" className="input input-bordered w-full" />
-              <textarea
-                placeholder="Special Instructions"
-                className="textarea textarea-bordered w-full"
-              ></textarea>
-              <input
-                type="text"
-                value={`$${service?.servicePrice}`}
-                readOnly
-                className="input input-bordered w-full"
-              />
-              <button
-                className="btn btn-success w-full mt-4"
-                onClick={handlePurchase}
-              >
-                Purchase
-              </button>
-              <button
-                className="btn btn-error w-full mt-2"
-                onClick={() => setShowModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

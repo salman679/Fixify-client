@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
 import AllServicesPage from "../components/services/AllServices";
 import ServiceDetails from "../components/services/ServiceDetails";
+import ConfirmBooking from "../components/services/ConfirmBooking";
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: "services/:id",
         element: <ServiceDetails />,
+      },
+      {
+        path: "/booking/:id",
+        element: <ConfirmBooking />,
       },
 
       {
