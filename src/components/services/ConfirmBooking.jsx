@@ -25,17 +25,16 @@ export default function ConfirmBooking() {
         setValue("serviceId", data._id);
         setValue("serviceName", data.serviceName);
         setValue("serviceImage", data.serviceImage);
+        setValue("servicePrice", data.servicePrice);
+        setValue("serviceStatus", "Pending");
         setValue("providerName", data.providerName);
         setValue("providerEmail", data.providerEmail);
-        setValue("servicePrice", data.servicePrice);
         setValue("userName", user?.displayName);
         setValue("userEmail", user?.email);
       });
   }, [id, setValue, user]);
 
   const onSubmit = (data) => {
-    console.log(data);
-
     fetch(`${import.meta.env.VITE_MAIN_URL}/add-booking`, {
       method: "POST",
       headers: {
