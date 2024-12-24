@@ -3,6 +3,7 @@ import Main from "../layouts/Main";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import SignUp from "../pages/SignUp";
+import AllServicesPage from "../components/AllServices";
 
 export const router = createBrowserRouter([
   {
@@ -13,6 +14,14 @@ export const router = createBrowserRouter([
       {
         index: true,
         element: <Home />,
+      },
+      {
+        path: "services",
+        element: <AllServicesPage />,
+      },
+      {
+        path: "service/:id",
+        element: <AllServicesPage />,
       },
 
       {
