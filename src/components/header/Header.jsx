@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -19,6 +19,8 @@ export default function Header() {
   });
 
   const { pathname } = useLocation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (pathname === "/services") {
@@ -47,6 +49,8 @@ export default function Header() {
           showConfirmButton: false,
           timer: 1500,
         });
+
+        navigate("/");
       })
       .catch((error) => {
         Swal.fire({

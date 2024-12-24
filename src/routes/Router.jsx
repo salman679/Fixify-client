@@ -8,6 +8,7 @@ import ServiceDetails from "../components/services/ServiceDetails";
 import ConfirmBooking from "../components/services/ConfirmBooking";
 import AddService from "../pages/AddService";
 import BookedServices from "../pages/BookedServices";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -25,12 +26,20 @@ export const router = createBrowserRouter([
       },
       {
         path: "services/:id",
-        element: <ServiceDetails />,
+        element: (
+          <PrivateRoute>
+            <ServiceDetails />
+          </PrivateRoute>
+        ),
       },
 
       {
         path: "/booking/:id",
-        element: <ConfirmBooking />,
+        element: (
+          <PrivateRoute>
+            <ConfirmBooking />
+          </PrivateRoute>
+        ),
       },
 
       {
@@ -51,7 +60,11 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "add-service",
-            element: <AddService />,
+            element: (
+              <PrivateRoute>
+                <AddService />
+              </PrivateRoute>
+            ),
           },
           {
             path: "manage-service",
@@ -59,7 +72,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "booked-services",
-            element: <BookedServices />,
+            element: (
+              <PrivateRoute>
+                <BookedServices />
+              </PrivateRoute>
+            ),
           },
           {
             path: "service-to-do",

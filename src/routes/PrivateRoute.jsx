@@ -1,7 +1,8 @@
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import PropTypes from "prop-types";
 
-export default function PrivateRoute() {
+export default function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -9,8 +10,13 @@ export default function PrivateRoute() {
   }
 
   if (user) {
-    return <Outlet />;
+    return children;
   }
 
-  return <Navigate to="/login" />;
+  return <Navigate to="/auth/login" />;
 }
+
+// Correct PropTypes definition
+PrivateRoute.propTypes = {
+  children: PropTypes.node.isRequired,
+};

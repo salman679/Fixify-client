@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { Helmet } from "react-helmet-async";
 
 export default function BookedServices() {
   const { user } = useAuth();
@@ -18,6 +19,9 @@ export default function BookedServices() {
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-12 px-6">
+      <Helmet>
+        <title>My Booked Services - Fixify</title>
+      </Helmet>
       <div className="max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">
           My Booked Services
