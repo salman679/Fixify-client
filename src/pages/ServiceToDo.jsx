@@ -32,7 +32,7 @@ export default function ServiceToDo() {
   };
 
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 ">
       <h1 className="text-3xl font-bold mb-8 text-center">Manage Bookings</h1>
 
       {bookings.length > 0 ? (
@@ -40,7 +40,7 @@ export default function ServiceToDo() {
           {bookings.map((booking) => (
             <div
               key={booking._id}
-              className="card bg-base-100 shadow-xl border border-gray-200"
+              className="card bg-base-100 shadow-xl border border-gray-200 dark:bg-gray-900 dark:text-white dark:border-gray-700"
             >
               <figure>
                 <img
@@ -69,11 +69,12 @@ export default function ServiceToDo() {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 ease-in-out"
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 ease-in-out dark:bg-gray-600 dark:text-white"
                   >
                     {["Pending", "Working", "Completed"].map((status) => (
                       <li
                         key={status}
+                        className="dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:active:bg-gray-800 rounded-md"
                         onClick={() => handleStatusChange(booking._id, status)}
                       >
                         <a

@@ -11,6 +11,7 @@ import BookedServices from "../pages/BookedServices";
 import PrivateRoute from "./PrivateRoute";
 import ManageServices from "../pages/ManageServices";
 import ServiceToDo from "../pages/ServiceToDo";
+import UpdateService from "../pages/UpdateService";
 
 export const router = createBrowserRouter([
   {
@@ -70,7 +71,19 @@ export const router = createBrowserRouter([
           },
           {
             path: "manage-service",
-            element: <ManageServices />,
+            element: (
+              <PrivateRoute>
+                <ManageServices />
+              </PrivateRoute>
+            ),
+          },
+          {
+            path: "edit-service/:id",
+            element: (
+              <PrivateRoute>
+                <UpdateService />
+              </PrivateRoute>
+            ),
           },
           {
             path: "booked-services",

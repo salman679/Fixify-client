@@ -1,101 +1,128 @@
-import { useState } from "react";
-import { Helmet } from "react-helmet-async";
+import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { Helmet } from "react-helmet-async";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function ManageServices() {
   const { user } = useAuth();
-  const [selectedService, setSelectedService] = useState(null);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (serviceId) => {
-    // deleteService(serviceId);
-    setSelectedService(null);
+  // Fetch services added by the logged-in user
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_MAIN_URL}/manage-services?email=${user?.email}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setServices(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        Swal.fire("Oops!", "Failed to load services.", "error");
+      });
+  }, [user?.email]);
+
+  // Handle delete action with confirmation
+  const handleDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`${import.meta.env.VITE_MAIN_URL}/manage-services/${id}`, {
+          method: "DELETE",
+        })
+          .then((res) => {
+            if (res.ok) {
+              setServices((prev) => prev.filter((s) => s._id !== id));
+              Swal.fire(
+                "Deleted!",
+                "Your service has been deleted.",
+                "success"
+              );
+            } else {
+              Swal.fire("Failed!", "Could not delete service.", "error");
+            }
+          })
+          .catch(() =>
+            Swal.fire("Error!", "Something went wrong. Try again.", "error")
+          );
+      }
+    });
   };
 
   return (
-    <div className="container mx-auto px-4 py-10">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-12 px-6">
       <Helmet>
         <title>Manage Services - Fixify</title>
       </Helmet>
-      <h1 className="text-3xl font-bold text-center mb-8 dark:text-white">
-        Manage Your Services
-      </h1>
+      <div className="max-w-6xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12 text-gray-800 dark:text-white">
+          Manage Your Services
+        </h1>
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services?.map((service) => (
-          <div
-            key={service._id}
-            className="card bg-base-100 shadow-xl dark:bg-gray-800 dark:text-white"
-          >
-            <figure>
-              <img
-                src={service.serviceImage}
-                alt={service.serviceName}
-                className="w-full h-64 object-cover"
-              />
-            </figure>
-            <div className="card-body">
-              <h2 className="card-title">{service.serviceName}</h2>
-              <p>{service.serviceDescription}</p>
-              <div className="flex justify-between items-center mt-4">
-                <button
-                  className="btn btn-primary"
-                  onClick={() => window.edit_modal.showModal()}
-                >
-                  Edit
-                </button>
-                <button
-                  className="btn btn-error"
-                  onClick={() => setSelectedService(service)}
-                >
-                  Delete
-                </button>
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ) : services.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service) => (
+              <div
+                key={service._id}
+                className="card bg-base-100 shadow-xl dark:bg-gray-900"
+              >
+                <figure>
+                  <img
+                    src={
+                      service.serviceImage || "https://via.placeholder.com/400"
+                    }
+                    alt={service.serviceName}
+                    className="h-48 w-full object-cover"
+                  />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{service.serviceName}</h2>
+                  <p className="text-gray-500 dark:text-gray-300">
+                    {service.serviceDescription}
+                  </p>
+                  <p className="text-lg font-semibold text-primary">
+                    ${service.servicePrice}
+                  </p>
+                  <div className="card-actions justify-end">
+                    <Link
+                      to={`/dashboard/edit-service/${service._id}`}
+                      className="btn btn-primary btn-sm"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      onClick={() => handleDelete(service._id)}
+                      className="btn btn-error btn-sm"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
-        ))}
+        ) : (
+          <div className="text-center mt-12">
+            <p className="text-xl text-gray-700 dark:text-gray-300">
+              No services found. Add your first service!
+            </p>
+          </div>
+        )}
       </div>
-
-      {/* Delete Confirmation Modal */}
-      {selectedService && (
-        <dialog id="delete_modal" className="modal modal-open">
-          <div className="modal-box dark:bg-gray-900 dark:text-white">
-            <h3 className="font-bold text-lg">
-              Are you sure you want to delete this service?
-            </h3>
-            <p className="py-4">{selectedService.serviceName}</p>
-            <div className="modal-action">
-              <form method="dialog">
-                <button
-                  className="btn btn-error"
-                  onClick={() => handleDelete(selectedService._id)}
-                >
-                  Confirm
-                </button>
-                <button
-                  className="btn"
-                  onClick={() => setSelectedService(null)}
-                >
-                  Cancel
-                </button>
-              </form>
-            </div>
-          </div>
-        </dialog>
-      )}
-
-      {/* Edit Modal (Placeholder) */}
-      <dialog id="edit_modal" className="modal">
-        <div className="modal-box dark:bg-gray-900 dark:text-white">
-          <h3 className="font-bold text-lg">Edit Service</h3>
-          <p className="py-4">Form to edit service goes here...</p>
-          <div className="modal-action">
-            <form method="dialog">
-              <button className="btn btn-primary">Save</button>
-              <button className="btn">Cancel</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
     </div>
   );
 }

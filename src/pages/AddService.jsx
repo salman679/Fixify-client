@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 export default function AddService() {
   const { user } = useAuth();
@@ -11,6 +13,7 @@ export default function AddService() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
   const onSubmit = (data) => {
     const newService = {
       ...data,
@@ -28,8 +31,17 @@ export default function AddService() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        reset();
+        if (data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Service Added Successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+
+          navigate("/services");
+          reset();
+        }
       });
   };
 
