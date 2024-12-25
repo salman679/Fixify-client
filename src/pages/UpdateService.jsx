@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export default function UpdateService() {
-  const { id } = useParams(); // Get service ID from URL
+  const { id } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState({});
   const [loading, setLoading] = useState(true);
@@ -21,6 +21,31 @@ export default function UpdateService() {
         setLoading(false);
       });
   }, [id]);
+
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    fetch(`${import.meta.env.VITE_MAIN_URL}/manage-services/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(service),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.modifiedCount > 0) {
+          Swal.fire("Success!", "Service updated successfully.", "success");
+          navigate("/manage-services");
+        } else {
+          Swal.fire("Error!", "Failed to update service.", "error");
+        }
+      })
+      .catch(() => {
+        Swal.fire("Error!", "Failed to update service.", "error");
+      });
+  };
 
   // Handle form input changes
   const handleChange = (e) => {
@@ -40,7 +65,7 @@ export default function UpdateService() {
             <span className="loading loading-spinner loading-lg text-primary"></span>
           </div>
         ) : (
-          <form className="space-y-8">
+          <form className="space-y-8" onSubmit={handleSubmit}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text dark:label-text-alt text-gray-700 dark:text-gray-300">
@@ -60,12 +85,44 @@ export default function UpdateService() {
             <div className="form-control">
               <label className="label">
                 <span className="label-text dark:label-text-alt text-gray-700 dark:text-gray-300">
+                  Service Image URL
+                </span>
+              </label>
+              <input
+                type="text"
+                name="serviceImage"
+                value={service.serviceImage || ""}
+                onChange={handleChange}
+                className="input input-bordered w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                required
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text dark:label-text-alt text-gray-700 dark:text-gray-300">
+                  Location
+                </span>
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={service.location || ""}
+                onChange={handleChange}
+                className="input input-bordered w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
+                required
+              />
+            </div>
+
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text dark:label-text-alt text-gray-700 dark:text-gray-300">
                   Description
                 </span>
               </label>
               <textarea
-                name="description"
-                value={service.description || ""}
+                name="serviceDescription"
+                value={service.serviceDescription || ""}
                 onChange={handleChange}
                 className="textarea textarea-bordered w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
                 rows="5"
@@ -83,22 +140,6 @@ export default function UpdateService() {
                 type="number"
                 name="servicePrice"
                 value={service.servicePrice || ""}
-                onChange={handleChange}
-                className="input input-bordered w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
-                required
-              />
-            </div>
-
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text dark:label-text-alt text-gray-700 dark:text-gray-300">
-                  Service Image URL
-                </span>
-              </label>
-              <input
-                type="text"
-                name="serviceImage"
-                value={service.serviceImage || ""}
                 onChange={handleChange}
                 className="input input-bordered w-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white border-gray-300 dark:border-gray-600"
                 required
