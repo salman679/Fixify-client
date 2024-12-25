@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useAuth } from "../contexts/AuthContext";
-import { useManageServices } from "../hooks/useManageServices";
 
 export default function ManageServices() {
   const { user } = useAuth();
-  const { services, deleteService } = useManageServices();
   const [selectedService, setSelectedService] = useState(null);
 
   const handleDelete = (serviceId) => {
-    deleteService(serviceId);
+    // deleteService(serviceId);
     setSelectedService(null);
   };
 
@@ -23,7 +21,7 @@ export default function ManageServices() {
       </h1>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {services.map((service) => (
+        {services?.map((service) => (
           <div
             key={service._id}
             className="card bg-base-100 shadow-xl dark:bg-gray-800 dark:text-white"
