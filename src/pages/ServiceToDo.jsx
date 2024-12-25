@@ -13,23 +13,23 @@ export default function ServiceToDo() {
   }, [user.email]);
 
   // Update service status
-  //   const handleStatusChange = (id, newStatus) => {
-  //     fetch(`${import.meta.env.VITE_MAIN_URL}/api/bookings/${id}`, {
-  //       method: "PUT",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ serviceStatus: newStatus }),
-  //     }).then((res) => {
-  //       if (res.ok) {
-  //         setBookings((prev) =>
-  //           prev.map((booking) =>
-  //             booking._id === id
-  //               ? { ...booking, serviceStatus: newStatus }
-  //               : booking
-  //           )
-  //         );
-  //       }
-  //     });
-  //   };
+  const handleStatusChange = (id, newStatus) => {
+    fetch(`${import.meta.env.VITE_MAIN_URL}/services-to-do/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ serviceStatus: newStatus }),
+    }).then((res) => {
+      if (res.ok) {
+        setBookings((prev) =>
+          prev.map((booking) =>
+            booking._id === id
+              ? { ...booking, serviceStatus: newStatus }
+              : booking
+          )
+        );
+      }
+    });
+  };
 
   return (
     <div className="container mx-auto p-6">
@@ -69,12 +69,12 @@ export default function ServiceToDo() {
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200 ease-in-out"
                   >
                     {["Pending", "Working", "Completed"].map((status) => (
                       <li
                         key={status}
-                        // onClick={() => handleStatusChange(booking._id, status)}
+                        onClick={() => handleStatusChange(booking._id, status)}
                       >
                         <a
                           className={`capitalize ${
