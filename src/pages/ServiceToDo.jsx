@@ -1,34 +1,34 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import useAxios from "../hooks/useAxios";
 
 export default function ServiceToDo() {
   const [bookings, setBookings] = useState([]);
   const { user } = useAuth();
+  const axiosInstance = useAxios();
 
   // Fetch booked services where user is the service provider
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services-to-do?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setBookings(data));
-  }, [user.email]);
+    axiosInstance
+      .get(`/services-to-do?email=${user.email}`)
+      .then(({ data }) => setBookings(data));
+  }, [user.email, axiosInstance]);
 
   // Update service status
   const handleStatusChange = (id, newStatus) => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services-to-do/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ serviceStatus: newStatus }),
-    }).then((res) => {
-      if (res.ok) {
-        setBookings((prev) =>
-          prev.map((booking) =>
-            booking._id === id
-              ? { ...booking, serviceStatus: newStatus }
-              : booking
-          )
-        );
-      }
-    });
+    axiosInstance
+      .put(`/services-to-do/${id}`, { serviceStatus: newStatus })
+      .then((res) => {
+        if (res.ok) {
+          setBookings((prev) =>
+            prev.map((booking) =>
+              booking._id === id
+                ? { ...booking, serviceStatus: newStatus }
+                : booking
+            )
+          );
+        }
+      });
   };
 
   return (

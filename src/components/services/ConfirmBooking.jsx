@@ -4,9 +4,11 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../../contexts/AuthContext";
 import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import useAxios from "../../hooks/useAxios";
 
 export default function ConfirmBooking() {
   const { id } = useParams();
+  const axiosInstance = useAxios();
   const [, setService] = useState({});
   const { user } = useAuth();
   const {
@@ -20,45 +22,34 @@ export default function ConfirmBooking() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setService(data);
-        // Prefill form with data
-        setValue("serviceId", data._id);
-        setValue("serviceName", data.serviceName);
-        setValue("serviceImage", data.serviceImage);
-        setValue("servicePrice", data.servicePrice);
-        setValue("serviceStatus", "Pending");
-        setValue("providerName", data.providerName);
-        setValue("providerEmail", data.providerEmail);
-        setValue("userName", user?.displayName);
-        setValue("userEmail", user?.email);
-      });
-  }, [id, setValue, user]);
+    axiosInstance.get(`/services/${id}`).then(({ data }) => {
+      setService(data);
+      setValue("serviceId", data._id);
+      setValue("serviceName", data.serviceName);
+      setValue("serviceImage", data.serviceImage);
+      setValue("servicePrice", data.servicePrice);
+      setValue("serviceStatus", "Pending");
+      setValue("providerName", data.providerName);
+      setValue("providerEmail", data.providerEmail);
+      setValue("userName", user?.displayName);
+      setValue("userEmail", user?.email);
+    });
+  }, [id, setValue, user, axiosInstance]);
 
   const onSubmit = (data) => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/add-booking`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            icon: "success",
-            title: "Booking Confirmed",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+    axiosInstance.post("/add-booking", data).then(({ data }) => {
+      if (data.insertedId) {
+        Swal.fire({
+          icon: "success",
+          title: "Booking Confirmed",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-          navigate("/services");
-          reset();
-        }
-      });
+        navigate("/services");
+        reset();
+      }
+    });
   };
 
   return (

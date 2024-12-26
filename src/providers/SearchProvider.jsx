@@ -5,8 +5,6 @@ import { SearchContext } from "../contexts/SearchContext";
 export default function SearchProvider({ children }) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(searchTerm);
-
   return (
     <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
       {children}

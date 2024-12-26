@@ -1,26 +1,28 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 export default function UpdateService() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [service, setService] = useState({});
   const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxios();
 
   // Fetch existing service data
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setService(data);
+    axiosInstance
+      .get(`/manage-services/${id}`)
+      .then((res) => {
+        setService(res.data);
         setLoading(false);
       })
       .catch(() => {
         Swal.fire("Error!", "Failed to load service details.", "error");
         setLoading(false);
       });
-  }, [id]);
+  }, [id, axiosInstance]);
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -28,16 +30,10 @@ export default function UpdateService() {
 
     const { _id, ...updatedService } = service;
 
-    fetch(`${import.meta.env.VITE_MAIN_URL}/manage-services/${id}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedService),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.modifiedCount > 0) {
+    axiosInstance
+      .patch(`/manage-services/${id}`, updatedService)
+      .then((res) => {
+        if (res.ok) {
           Swal.fire("Success!", "Service updated successfully.", "success");
           navigate("/dashboard/manage-service");
         } else {

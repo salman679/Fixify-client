@@ -60,9 +60,10 @@ export default function AuthProvider({ children }) {
           .post(`${import.meta.env.VITE_MAIN_URL}/jwt`, user, {
             withCredentials: true,
           })
-          .then((data) => console.log(data));
-        setUser(currentUser);
-        setLoading(false);
+          .then(() => {
+            setUser(currentUser);
+            setLoading(false);
+          });
       } else {
         axios.post(
           `${import.meta.env.VITE_MAIN_URL}/logout`,

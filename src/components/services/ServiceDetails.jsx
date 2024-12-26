@@ -9,10 +9,6 @@ export default function ServiceDetails() {
   const axiosInstance = useAxios();
 
   useEffect(() => {
-    // fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
-    //   .then((res) => res.json())
-    //   .then((data) => setService(data));
-
     axiosInstance.get(`/services/${id}`).then(({ data }) => setService(data));
   }, [axiosInstance, id]);
 

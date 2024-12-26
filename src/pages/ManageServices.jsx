@@ -37,20 +37,11 @@ export default function ManageServices() {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_MAIN_URL}/manage-services/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => {
-            if (res.ok) {
-              setServices((prev) => prev.filter((s) => s._id !== id));
-              Swal.fire(
-                "Deleted!",
-                "Your service has been deleted.",
-                "success"
-              );
-            } else {
-              Swal.fire("Failed!", "Could not delete service.", "error");
-            }
+        axiosInstance
+          .delete(`/manage-services/${id}`)
+          .then(() => {
+            setServices((prev) => prev.filter((s) => s._id !== id));
+            Swal.fire("Deleted!", "Your service has been deleted.", "success");
           })
           .catch(() =>
             Swal.fire("Error!", "Something went wrong. Try again.", "error")

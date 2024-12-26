@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 export default function AddService() {
   const { user } = useAuth();
@@ -12,6 +13,7 @@ export default function AddService() {
     reset,
     formState: { errors },
   } = useForm();
+  const axiosInstance = useAxios();
 
   const navigate = useNavigate();
   const onSubmit = (data) => {
@@ -22,27 +24,19 @@ export default function AddService() {
       providerImage: user.photoURL,
     };
 
-    fetch(`${import.meta.env.VITE_MAIN_URL}/add-service`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newService),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          Swal.fire({
-            icon: "success",
-            title: "Service Added Successfully",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+    axiosInstance.post("/add-service", newService).then(({ data }) => {
+      if (data.insertedId) {
+        Swal.fire({
+          icon: "success",
+          title: "Service Added Successfully",
+          showConfirmButton: false,
+          timer: 1500,
+        });
 
-          navigate("/services");
-          reset();
-        }
-      });
+        navigate("/services");
+        reset();
+      }
+    });
   };
 
   return (
