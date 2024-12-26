@@ -42,7 +42,7 @@ A service-sharing platform that allows users to add, update, and manage services
 1. Clone the repository for both the client and server side:
 
    ```bash
-   git clone https://github.com/your-repo/client-side
+   git clone [https://github.com/your-repo/client-side](https://github.com/salman679/Fixify-client.git)
    git clone https://github.com/your-repo/server-side
    ```
 
