@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import { useAuth } from "../../contexts/AuthContext";
 import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useSearch } from "../../contexts/SearchContext";
+import logo from "../../assets/logo-removebg-preview (1).png";
 
 export default function Header() {
   const { user, Logout } = useAuth();
@@ -131,8 +132,8 @@ export default function Header() {
               )}
             </ul>
           </div>
-          <Link to="/" className="btn btn-ghost dark:text-white text-xl">
-            Fixify
+          <Link to="/" className="dark:text-white text-xl h-16 w-16">
+            <img src={logo} className="w-full h-full" alt="" />
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

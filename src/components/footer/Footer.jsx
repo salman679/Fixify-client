@@ -1,4 +1,5 @@
 import { FaFacebookF, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import logo from "../../assets/logo-removebg-preview (1).png";
 
 function Footer() {
   return (
@@ -7,7 +8,9 @@ function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Website Name */}
           <div>
-            <h2 className="text-2xl font-bold">Fixify</h2>
+            <div className="w-16 h-16">
+              <img src={logo} className="w-full h-full" alt="" />
+            </div>
             <p className="mt-2">
               Simplifying your repairs and services, one click at a time!
             </p>
