@@ -43,7 +43,7 @@ A service-sharing platform that allows users to add, update, and manage services
 
    ```bash
    git clone https://github.com/salman679/Fixify-client.git
-   git clone https://github.com/your-repo/server-side
+   git clone https://github.com/salman679/Fixify-server.git
    ```
 
 2. Install dependencies for both the client and server:
