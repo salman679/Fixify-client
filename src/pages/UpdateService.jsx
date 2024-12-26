@@ -26,18 +26,20 @@ export default function UpdateService() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const { _id, ...updatedService } = service;
+
     fetch(`${import.meta.env.VITE_MAIN_URL}/manage-services/${id}`, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(service),
+      body: JSON.stringify(updatedService),
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.modifiedCount > 0) {
           Swal.fire("Success!", "Service updated successfully.", "success");
-          navigate("/manage-services");
+          navigate("/dashboard/manage-service");
         } else {
           Swal.fire("Error!", "Failed to update service.", "error");
         }
