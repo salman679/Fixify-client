@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet-async";
-import Swal from "sweetalert2";
 import useAxios from "../hooks/useAxios";
 
 export default function BookedServices() {
@@ -26,38 +25,6 @@ export default function BookedServices() {
   }, [axiosInstance, user?.email]);
 
   // Handle cancel booking
-  const handleCancelBooking = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This booking will be canceled!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, cancel it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        fetch(`${import.meta.env.VITE_MAIN_URL}/api/bookings/${id}`, {
-          method: "DELETE",
-        })
-          .then((res) => {
-            if (res.ok) {
-              setBookedServices((prev) =>
-                prev.filter((service) => service._id !== id)
-              );
-              Swal.fire(
-                "Canceled!",
-                "Your booking has been canceled.",
-                "success"
-              );
-            } else {
-              Swal.fire("Failed!", "Could not cancel booking.", "error");
-            }
-          })
-          .catch(() => Swal.fire("Oops!", "Something went wrong.", "error"));
-      }
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-800 py-12 px-6">
@@ -122,14 +89,6 @@ export default function BookedServices() {
                   >
                     {service.serviceStatus}
                   </p>
-                  <div className="card-actions justify-end mt-4">
-                    <button
-                      onClick={() => handleCancelBooking(service._id)}
-                      className="btn btn-error btn-sm"
-                    >
-                      Cancel Booking
-                    </button>
-                  </div>
                 </div>
               </div>
             ))}

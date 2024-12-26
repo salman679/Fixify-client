@@ -13,7 +13,7 @@ export default function UpdateService() {
   // Fetch existing service data
   useEffect(() => {
     axiosInstance
-      .get(`/manage-services/${id}`)
+      .get(`/services/${id}`)
       .then((res) => {
         setService(res.data);
         setLoading(false);
@@ -33,11 +33,9 @@ export default function UpdateService() {
     axiosInstance
       .patch(`/manage-services/${id}`, updatedService)
       .then((res) => {
-        if (res.ok) {
+        if (res.data.modifiedCount > 0) {
           Swal.fire("Success!", "Service updated successfully.", "success");
           navigate("/dashboard/manage-service");
-        } else {
-          Swal.fire("Error!", "Failed to update service.", "error");
         }
       })
       .catch(() => {
@@ -147,7 +145,7 @@ export default function UpdateService() {
             <div className="flex justify-end space-x-4">
               <button
                 type="button"
-                onClick={() => navigate("/manage-services")}
+                onClick={() => navigate("/dashboard/manage-service")}
                 className="btn btn-outline dark:btn-accent"
               >
                 Cancel

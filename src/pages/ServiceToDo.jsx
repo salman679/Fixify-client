@@ -19,7 +19,7 @@ export default function ServiceToDo() {
     axiosInstance
       .put(`/services-to-do/${id}`, { serviceStatus: newStatus })
       .then((res) => {
-        if (res.ok) {
+        if (res.data.modifiedCount > 0) {
           setBookings((prev) =>
             prev.map((booking) =>
               booking._id === id
