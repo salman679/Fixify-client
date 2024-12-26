@@ -12,12 +12,13 @@ import PrivateRoute from "./PrivateRoute";
 import ManageServices from "../pages/ManageServices";
 import ServiceToDo from "../pages/ServiceToDo";
 import UpdateService from "../pages/UpdateService";
+import ErrorPage from "../components/error/ErrorPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main />,
-    errorElement: <>Error</>,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,

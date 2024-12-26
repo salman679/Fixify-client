@@ -3,19 +3,19 @@ import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 export default function ManageServices() {
   const { user } = useAuth();
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosInstance = useAxios();
 
   // Fetch services added by the logged-in user
   useEffect(() => {
-    fetch(
-      `${import.meta.env.VITE_MAIN_URL}/manage-services?email=${user?.email}`
-    )
-      .then((res) => res.json())
-      .then((data) => {
+    axiosInstance
+      .get(`/manage-services?email=${user?.email}`)
+      .then(({ data }) => {
         setServices(data);
         setLoading(false);
       })
@@ -23,7 +23,7 @@ export default function ManageServices() {
         setLoading(false);
         Swal.fire("Oops!", "Failed to load services.", "error");
       });
-  }, [user?.email]);
+  }, [axiosInstance, user?.email]);
 
   // Handle delete action with confirmation
   const handleDelete = (id) => {

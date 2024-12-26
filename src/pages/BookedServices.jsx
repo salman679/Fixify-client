@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { Helmet } from "react-helmet-async";
 import Swal from "sweetalert2";
+import useAxios from "../hooks/useAxios";
 
 export default function BookedServices() {
   const { user } = useAuth();
   const [bookedServices, setBookedServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const axiosInstance = useAxios();
 
   // Fetch booked services
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/bookings?email=${user?.email}`)
-      .then((res) => res.json())
-      .then((data) => {
+    axiosInstance
+      .get(`/bookings?email=${user?.email}`)
+      .then(({ data }) => {
         setBookedServices(data);
         setLoading(false);
       })
@@ -21,7 +23,7 @@ export default function BookedServices() {
         setLoading(false);
         setError(true);
       });
-  }, [user?.email]);
+  }, [axiosInstance, user?.email]);
 
   // Handle cancel booking
   const handleCancelBooking = (id) => {

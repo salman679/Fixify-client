@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { Link, useParams } from "react-router-dom";
+import useAxios from "../../hooks/useAxios";
 
 export default function ServiceDetails() {
   const { id } = useParams();
   const [service, setService] = useState({});
+  const axiosInstance = useAxios();
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
-      .then((res) => res.json())
-      .then((data) => setService(data));
-  }, [id]);
+    // fetch(`${import.meta.env.VITE_MAIN_URL}/services/${id}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setService(data));
+
+    axiosInstance.get(`/services/${id}`).then(({ data }) => setService(data));
+  }, [axiosInstance, id]);
 
   return (
     <div className="container mx-auto px-4 py-10">
