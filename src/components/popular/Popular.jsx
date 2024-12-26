@@ -11,17 +11,6 @@ export default function PopularServices() {
       .then((data) => setServices(data));
   }, []);
 
-  //   {
-  //     "_id": "67698726c3d8cd2a0629b447",
-  //     "providerName": "Fixify Handyman",
-  //     "providerImage": "https://i.ibb.co.com/QQqf3R7/Sig-File-Picture.jpg",
-  //     "location": "DHAKA",
-  //     "serviceImage": "https://i.ibb.co.com/qCmcLNV/Credible-home-repairs-i-Stock-1267057581.webp",
-  //     "serviceName": "Home Repair",
-  //     "serviceDescription": "Quick and reliable home repair services for all kinds of maintenance tasks.",
-  //     "servicePrice": 500
-  // }
-
   return (
     <section className="container mx-auto py-12 px-6">
       <h2 className="text-4xl font-bold text-center mb-8">Popular Services</h2>
