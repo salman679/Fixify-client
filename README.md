@@ -1,4 +1,4 @@
-# **Fixify Client**
+# **Fixify**
 
 A service-sharing platform that allows users to add, update, and manage services, book services, and track the status of their bookings. This app is designed to create a user-friendly service-sharing experience with features for both service providers and users.
 
