@@ -53,7 +53,7 @@ Fixify is a service-sharing web application designed to connect users with vario
 For the server-side repository:
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/fixify-server.git
+   git clone https://github.com/salman679/Fixify-server.git
    cd fixify-server
    ```
 2. Install dependencies:
