@@ -4,7 +4,7 @@
 Fixify is a service-sharing web application designed to connect users with various service providers. Users can add, update, and delete their own services, browse services shared by others, book services, and manage the statuses of booked services. The platform offers a user-friendly experience with features for service management, service booking, and status updates.
 
 ## Live Site URL
-[Fixify Live Site](https://fixify.com)
+[Fixify Live Site](https://peak-summer-445602-e8.web.app/)
 
 ## Features
 - **User Authentication**: Secure login and registration system with email/password and Google Sign-in.
