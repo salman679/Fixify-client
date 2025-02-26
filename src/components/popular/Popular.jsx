@@ -15,7 +15,7 @@ export default function PopularServices() {
     <section className="container mx-auto py-12 px-6">
       <h2 className="text-4xl font-bold text-center mb-8">Popular Services</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {services.slice(0, 6).map((service) => (
+        {services < 0 ? <div className="flex justify-center items-center"><span className="loading loading-spinner loading-lg"></span></div> : services.slice(0, 6).map((service) => (
           <div
             key={service._id}
             className="card bg-base-100 dark:bg-gray-900 dark:text-white shadow-xl"
