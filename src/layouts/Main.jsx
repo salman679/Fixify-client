@@ -5,15 +5,15 @@ import { Outlet } from "react-router-dom";
 
 export default function Main() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col bg-background dark:bg-gray-900 dark:text-white">
       <Header />
       <Helmet>
         <title>Home - Fixify</title>
       </Helmet>
-      <div className="min-h-[calc(100vh-320px)] dark:bg-gray-800 dark:text-white">
+      <main className="flex-1">
         <Outlet />
-      </div>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

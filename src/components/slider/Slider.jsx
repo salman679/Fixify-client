@@ -1,6 +1,11 @@
+"use client";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { motion } from "motion/react";
+import { motion } from "framer-motion";
+import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -13,71 +18,90 @@ export default function Slider() {
       description:
         "Expert solutions for all your home maintenance and repair needs. Fast, efficient, and affordable.",
       image: "https://i.ibb.co.com/Vj9rMJS/home-repairs-2-640w.webp",
+      color: "from-blue-500/30 to-indigo-500/30",
     },
     {
       title: "Your Trusted Handyman",
       description:
         "Professional handyman services to tackle any job, big or small. Your home in safe hands.",
       image: "https://i.ibb.co.com/b2BLYSx/Handyman-Agency.jpg",
+      color: "from-amber-500/30 to-orange-500/30",
     },
     {
       title: "Quality You Can Trust",
       description:
         "From plumbing to electrical work, our certified experts ensure top-notch quality and durability.",
       image: "https://i.ibb.co.com/Jj3QKZd/202104153903-Apr.jpg",
+      color: "from-emerald-500/30 to-teal-500/30",
     },
   ];
 
   return (
-    <div className="">
-      <div className="container mx-auto px-4 md:px-6 ">
-        <Swiper
-          modules={[Navigation, Pagination, Autoplay]}
-          navigation
-          pagination={{ clickable: true }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-          loop={true}
-          className="rounded-lg overflow-hidden"
-        >
-          {banners.map((banner, index) => (
-            <SwiperSlide key={index}>
+    <div className="relative w-full">
+      <Swiper
+        modules={[Navigation, Pagination, Autoplay]}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false }}
+        loop={true}
+        className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px]"
+      >
+        {banners.map((banner, index) => (
+          <SwiperSlide key={index}>
+            <div className="relative h-full w-full">
+              {/* Background Image with Overlay */}
               <div
-                className="relative h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] bg-cover bg-center"
+                className="absolute inset-0 bg-cover bg-center"
                 style={{ backgroundImage: `url(${banner.image})` }}
-              >
-                <div className="absolute inset-0 bg-black text-left bg-opacity-50 flex items-center justify-center ">
-                  <div className="text-left w-full px-14 md:px-24">
-                    <motion.h2
-                      animate={{ opacity: 1, y: [-50, 0] }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                      }}
-                      initial={{ opacity: 0, y: -50 }}
-                      className="text-3xl  sm:text-5xl md:text-6xl lg:text-7xl text-white font-bold max-w-xs md:max-w-lg"
-                    >
-                      {banner.title}
-                    </motion.h2>
-                    <motion.p
-                      animate={{ opacity: 1, x: [-50, 0] }}
-                      initial={{ opacity: 0, x: -50 }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        repeatType: "mirror",
-                      }}
-                      className="text-white  text-lg sm:text-xl md:text-2xl mt-2 max-w-xs  md:max-w-xl"
-                    >
-                      {banner.description}
-                    </motion.p>
-                  </div>
+              />
+              <div className="absolute inset-0 bg-black/50" />
+              <div
+                className={`absolute inset-0 bg-gradient-to-r ${banner.color} mix-blend-multiply`}
+              />
+
+              {/* Content */}
+              <div className="relative z-10 flex h-full flex-col items-start justify-center px-6 sm:px-10 md:px-16 lg:px-24">
+                <div className="max-w-3xl">
+                  <motion.h1
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="mb-4 text-3xl font-bold text-white sm:text-4xl md:text-5xl lg:text-6xl"
+                  >
+                    {banner.title}
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                    className="mb-6 max-w-xl text-base text-white/90 sm:text-lg md:text-xl"
+                  >
+                    {banner.description}
+                  </motion.p>
+                  <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.6 }}
+                    className="flex flex-col gap-4 sm:flex-row sm:items-center"
+                  >
+                    <div className="relative flex-1 max-w-md">
+                      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+                      <Input
+                        type="text"
+                        placeholder="What service do you need?"
+                        className="h-12 bg-white/90 pl-10 text-black"
+                      />
+                    </div>
+                    <Button size="lg" className="h-12">
+                      Find Services
+                    </Button>
+                  </motion.div>
                 </div>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }

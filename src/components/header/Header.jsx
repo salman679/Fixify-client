@@ -1,28 +1,73 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { useEffect, useState } from "react";
+import {
+  Menu,
+  Search,
+  LogOut,
+  User,
+  Plus,
+  Settings,
+  List,
+  CheckSquare,
+} from "lucide-react";
 import Swal from "sweetalert2";
 import { useAuth } from "../../contexts/AuthContext";
-import { HiOutlineMenuAlt2 } from "react-icons/hi";
 import { useSearch } from "../../contexts/SearchContext";
-import logo from "../../assets/logo-removebg-preview (1).png";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+} from "@/components/ui/sheet";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
 
 export default function Header() {
   const { user, Logout } = useAuth();
   const { searchTerm, setSearchTerm } = useSearch();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(() => {
-    const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    return storedTheme ? storedTheme === "dark" : prefersDark;
-  });
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const { pathname } = useLocation();
-
   const navigate = useNavigate();
 
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Handle search visibility based on route
   useEffect(() => {
     if (pathname === "/services") {
       setIsSearchOpen(true);
@@ -31,16 +76,7 @@ export default function Header() {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
-
+  // Handle logout
   function handleLogout() {
     Logout()
       .then(() => {
@@ -50,7 +86,6 @@ export default function Header() {
           showConfirmButton: false,
           timer: 1500,
         });
-
         navigate("/");
       })
       .catch((error) => {
@@ -62,192 +97,314 @@ export default function Header() {
       });
   }
 
-  return (
-    <div className="dark:bg-gray-900">
-      <div className="navbar container mx-auto flex justify-between items-center py-4 px-6">
-        <div className="navbar-start w-auto">
-          <div className="dropdown dropdown-end group md:hidden">
-            <div role="button" className="btn btn-ghost btn-circle avatar">
-              <div className="flex items-center justify-center">
-                <HiOutlineMenuAlt2 className="text-2xl dark:text-white" />
-              </div>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 border left-0 dark:border-gray-700 shadow-md rounded-box z-50 w-52 p-2 dark:bg-gray-800 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
-            >
-              <li>
-                <Link
-                  to="/"
-                  className="dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                >
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/services"
-                  className="dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                >
-                  Services
-                </Link>
-              </li>
-              {user ? (
-                <>
-                  <li>
-                    <Link
-                      to="/dashboard/add-service"
-                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                    >
-                      Add Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/manage-service"
-                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                    >
-                      Manage Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/booked-services"
-                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                    >
-                      Booked Services
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/service-to-do"
-                      className="block dark:text-white dark:hover:bg-gray-700 dark:focus:bg-gray-700 "
-                    >
-                      Service To-Do
-                    </Link>
-                  </li>
-                </>
-              ) : (
-                ""
-              )}
-            </ul>
-          </div>
-          <Link to="/" className="dark:text-white text-xl h-16 w-16">
-            <img src={logo} className="w-full h-full" alt="" />
-          </Link>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li>
-              <Link to="/" className="dark:text-white">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link to="/services" className="dark:text-white">
-                Services
-              </Link>
-            </li>
-            {user ? (
-              <li className="relative group">
-                <button className="dark:text-white">Dashboard</button>
-                <ul className="absolute hidden  z-50 py-2 px-2 rounded-lg group-hover:block bg-white dark:bg-gray-800 shadow-xl dark:text-white mt-9 w-40 dark:border-gray-700">
-                  <li>
-                    <Link
-                      to="/dashboard/add-service"
-                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
-                    >
-                      Add Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/manage-service"
-                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
-                    >
-                      Manage Service
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/booked-services"
-                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
-                    >
-                      Booked Services
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/dashboard/service-to-do"
-                      className="block px-4 py-2 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:text-white"
-                    >
-                      Service To-Do
-                    </Link>
-                  </li>
-                </ul>
-              </li>
-            ) : (
-              ""
-            )}
-          </ul>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className={`form-control ${isSearchOpen ? "block" : "hidden"}`}>
-            <input
-              type="text"
-              placeholder="Search"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="input input-bordered w-full sm:w-64 dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:placeholder-gray-400 dark:focus:ring-gray-600 dark:focus:border-gray-600"
-            />
-          </div>
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className=" p-3 md:mx-2 bg-gray-300 dark:bg-gray-700 dark:text-white rounded-full"
-          >
-            {darkMode ? (
-              <MdLightMode className="text-xl" />
-            ) : (
-              <MdDarkMode className="text-xl" />
-            )}
-          </button>
+  // Get user initials for avatar fallback
+  const getUserInitials = () => {
+    if (!user) return "G";
+    const name = user.displayName || user.name || "";
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .substring(0, 2);
+  };
 
-          {user ? (
-            <div className="dropdown dropdown-end group">
-              <div role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Avatar"
-                    src={
-                      user?.photoURL ||
-                      "https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
-                    }
-                  />
-                </div>
-              </div>
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 border dark:border-gray-700 shadow-md rounded-box z-50 w-52 p-2 dark:bg-gray-800 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200"
-              >
-                <li>
-                  <a className="justify-between dark:text-white">
-                    {user?.displayName || user?.name}
-                  </a>
-                </li>
-                <li>
-                  <Link onClick={handleLogout} className="dark:text-white">
-                    Logout
-                  </Link>
-                </li>
-              </ul>
-            </div>
-          ) : (
-            <Link to="/auth/login">
-              <button className="btn hidden sm:inline-block">Log-in</button>
+  return (
+    <header
+      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
+        isScrolled
+          ? "bg-white/90 backdrop-blur-md shadow-sm dark:bg-gray-900/90"
+          : "bg-white dark:bg-gray-900"
+      }`}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex h-16 items-center justify-between">
+          {/* Logo and Mobile Menu */}
+          <div className="flex items-center">
+            {/* Mobile Menu */}
+            <Sheet>
+              <SheetTrigger asChild className="mr-2 md:hidden">
+                <Button variant="ghost" size="icon" aria-label="Menu">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[350px]">
+                <SheetHeader className="mb-6">
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <nav className="flex flex-col gap-4">
+                  <SheetClose asChild>
+                    <Link
+                      to="/"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    >
+                      Home
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      to="/services"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    >
+                      Services
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      to="/about"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    >
+                      About Us
+                    </Link>
+                  </SheetClose>
+                  <SheetClose asChild>
+                    <Link
+                      to="/contact"
+                      className="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    >
+                      Contact
+                    </Link>
+                  </SheetClose>
+
+                  {user && (
+                    <>
+                      <div className="px-3 py-2">
+                        <h3 className="mb-2 text-sm font-medium text-muted-foreground">
+                          Dashboard
+                        </h3>
+                        <div className="flex flex-col gap-1 pl-2">
+                          <SheetClose asChild>
+                            <Link
+                              to="/dashboard/add-service"
+                              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                            >
+                              <Plus className="h-4 w-4" />
+                              Add Service
+                            </Link>
+                          </SheetClose>
+                          <SheetClose asChild>
+                            <Link
+                              to="/dashboard/manage-service"
+                              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                            >
+                              <Settings className="h-4 w-4" />
+                              Manage Service
+                            </Link>
+                          </SheetClose>
+                          <SheetClose asChild>
+                            <Link
+                              to="/dashboard/booked-services"
+                              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                            >
+                              <List className="h-4 w-4" />
+                              Booked Services
+                            </Link>
+                          </SheetClose>
+                          <SheetClose asChild>
+                            <Link
+                              to="/dashboard/service-to-do"
+                              className="flex items-center gap-2 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent"
+                            >
+                              <CheckSquare className="h-4 w-4" />
+                              Service To-Do
+                            </Link>
+                          </SheetClose>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </nav>
+              </SheetContent>
+            </Sheet>
+
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2">
+              {/* <img
+                src="/logo-removebg-preview (1).png"
+                alt="Fixify Logo"
+                className="h-10 w-10"
+              /> */}
+              <span className="hidden text-xl font-bold sm:inline-block dark:text-white">
+                Fixify
+              </span>
             </Link>
-          )}
+          </div>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex md:items-center md:gap-6">
+            <Link
+              to="/"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/" ? "text-primary" : "text-foreground"
+              }`}
+            >
+              Home
+            </Link>
+            <Link
+              to="/services"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/services" ? "text-primary" : "text-foreground"
+              }`}
+            >
+              Services
+            </Link>
+
+            <Link
+              to="/about"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/about" ? "text-primary" : "text-foreground"
+              }`}
+            >
+              About Us
+            </Link>
+            <Link
+              to="/contact"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/contact" ? "text-primary" : "text-foreground"
+              }`}
+            >
+              Contact
+            </Link>
+
+            {user && (
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm font-medium">
+                      Dashboard
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <ul className="grid w-[200px] gap-1 p-2">
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/dashboard/add-service"
+                              className="flex items-center gap-2 rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              <Plus className="h-4 w-4" />
+                              Add Service
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/dashboard/manage-service"
+                              className="flex items-center gap-2 rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              <Settings className="h-4 w-4" />
+                              Manage Service
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/dashboard/booked-services"
+                              className="flex items-center gap-2 rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              <List className="h-4 w-4" />
+                              Booked Services
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                        <li>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to="/dashboard/service-to-do"
+                              className="flex items-center gap-2 rounded-md p-2 text-sm hover:bg-accent"
+                            >
+                              <CheckSquare className="h-4 w-4" />
+                              Service To-Do
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      </ul>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+            )}
+          </nav>
+
+          {/* Right Side - Search, Theme Toggle, User Menu */}
+          <div className="flex items-center gap-2">
+            {/* Search */}
+            {isSearchOpen && (
+              <motion.div
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "auto", opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="relative hidden sm:block"
+              >
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search services..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-[200px] pl-9 md:w-[250px]"
+                />
+              </motion.div>
+            )}
+
+            {/* User Menu or Login Button */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="relative h-9 w-9 rounded-full"
+                  >
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage
+                        src={user.photoURL || "/placeholder.svg"}
+                        alt={user.displayName || "User"}
+                      />
+                      <AvatarFallback>{getUserInitials()}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuLabel>
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium">
+                        {user.displayName || user.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link
+                      to="/profile"
+                      className="flex cursor-pointer items-center"
+                    >
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleLogout}
+                    className="cursor-pointer text-red-500 focus:text-red-500"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button asChild size="sm" className="ml-2">
+                <Link to="/auth/login">Log in</Link>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }

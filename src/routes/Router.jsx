@@ -1,18 +1,23 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../layouts/Main";
-import Login from "../pages/Login";
+import Login from "../pages/auth/Login";
 import Home from "../pages/Home";
-import SignUp from "../pages/SignUp";
+import SignUp from "../pages/auth/SignUp";
 import AllServicesPage from "../components/services/AllServices";
 import ServiceDetails from "../components/services/ServiceDetails";
 import ConfirmBooking from "../components/services/ConfirmBooking";
-import AddService from "../pages/AddService";
-import BookedServices from "../pages/BookedServices";
+import AddService from "../pages/dashboard/AddService";
+import BookedServices from "../pages/dashboard/BookedServices";
 import PrivateRoute from "./PrivateRoute";
-import ManageServices from "../pages/ManageServices";
-import ServiceToDo from "../pages/ServiceToDo";
-import UpdateService from "../pages/UpdateService";
+import ManageServices from "../pages/dashboard/ManageServices";
+import ServiceToDo from "../pages/dashboard/ServiceToDo";
+import UpdateService from "../pages/dashboard/UpdateService";
 import ErrorPage from "../components/error/ErrorPage";
+import AboutUs from "@/components/about/About";
+import ContactPage from "@/components/contact/ContactPage";
+import FAQ from "@/components/FAQ/FAQ";
+import PrivacyPolicy from "@/components/privacy/PrivacyPolicy";
+import TermsOfService from "@/components/terms-of-service/TermsOfService";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +40,27 @@ export const router = createBrowserRouter([
             <ServiceDetails />
           </PrivateRoute>
         ),
+      },
+
+      {
+        path: "/about",
+        element: <AboutUs />,
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />,
+      },
+      {
+        path: "/faq",
+        element: <FAQ />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms",
+        element: <TermsOfService />,
       },
 
       {

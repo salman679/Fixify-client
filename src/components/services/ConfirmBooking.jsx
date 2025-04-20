@@ -1,16 +1,47 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../contexts/AuthContext";
-import Swal from "sweetalert2";
 import { Helmet } from "react-helmet-async";
+import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+import {
+  Calendar,
+  User,
+  Mail,
+  DollarSign,
+  FileText,
+  ArrowLeft,
+  CheckCircle,
+  CreditCard,
+} from "lucide-react";
+import { useAuth } from "../../contexts/AuthContext";
 import useAxios from "../../hooks/useAxios";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ConfirmBooking() {
   const { id } = useParams();
   const axiosInstance = useAxios();
-  const [, setService] = useState({});
+  const [service, setService] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -19,187 +50,302 @@ export default function ConfirmBooking() {
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    axiosInstance.get(`/services/${id}`).then(({ data }) => {
-      setService(data);
-      setValue("serviceId", data._id);
-      setValue("serviceName", data.serviceName);
-      setValue("serviceImage", data.serviceImage);
-      setValue("servicePrice", data.servicePrice);
-      setValue("serviceStatus", "Pending");
-      setValue("providerName", data.providerName);
-      setValue("providerEmail", data.providerEmail);
-      setValue("userName", user?.displayName);
-      setValue("userEmail", user?.email);
-    });
+    setLoading(true);
+    axiosInstance
+      .get(`/services/${id}`)
+      .then(({ data }) => {
+        setService(data);
+        setValue("serviceId", data._id);
+        setValue("serviceName", data.serviceName);
+        setValue("serviceImage", data.serviceImage);
+        setValue("servicePrice", data.servicePrice);
+        setValue("serviceStatus", "Pending");
+        setValue("providerName", data.providerName);
+        setValue("providerEmail", data.providerEmail);
+        setValue("userName", user?.displayName);
+        setValue("userEmail", user?.email);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to load service details",
+        });
+      });
   }, [id, setValue, user, axiosInstance]);
 
   const onSubmit = (data) => {
-    axiosInstance.post("/add-booking", data).then(({ data }) => {
-      if (data.insertedId) {
-        Swal.fire({
-          icon: "success",
-          title: "Booking Confirmed",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+    setIsSubmitting(true);
+    axiosInstance
+      .post("/add-booking", data)
+      .then(({ data }) => {
+        if (data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Booking Confirmed",
+            text: "Your service has been booked successfully!",
+            showConfirmButton: false,
+            timer: 2000,
+          });
 
-        navigate("/services");
-        reset();
-      }
-    });
+          navigate("/dashboard/booked-services");
+          reset();
+        }
+      })
+      .catch((error) => {
+        Swal.fire({
+          icon: "error",
+          title: "Booking Failed",
+          text: error.message || "Something went wrong. Please try again.",
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
-    <div className="flex justify-center py-10 items-center min-h-screen bg-gray-100 dark:bg-gray-800 dark:text-gray-100 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <Helmet>
         <title>Confirm Booking - Fixify</title>
       </Helmet>
-      <div className="bg-white dark:bg-gray-900 p-8 rounded-lg w-full max-w-4xl shadow-lg">
-        <h2 className="text-3xl font-extrabold mb-8 text-center text-gray-800 dark:text-white">
-          Confirm Booking
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {/* Service ID */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Service ID
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("serviceId")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
 
-            {/* Service Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Service Name
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("serviceName")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
+      <div className="max-w-4xl mx-auto">
+        <Button variant="ghost" className="mb-6" asChild>
+          <Link to={`/services/${id}`}>
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Back to Service Details
+          </Link>
+        </Button>
 
-            {/* Provider Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Provider Name
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("providerName")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
-            {/* Provider Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Provider Email
-              </label>
-              <input
-                type="email"
-                readOnly
-                {...register("providerEmail")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
+        {loading ? (
+          <Card className="border-0 shadow-lg dark:bg-gray-800">
+            <CardHeader>
+              <Skeleton className="h-8 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-1/2" />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <Skeleton className="h-32 w-full" />
+              <div className="flex justify-end gap-4">
+                <Skeleton className="h-10 w-24" />
+                <Skeleton className="h-10 w-24" />
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Card className="border-0 shadow-lg dark:bg-gray-800">
+              <CardHeader className="space-y-1">
+                <CardTitle className="text-2xl font-bold text-center">
+                  Confirm Your Booking
+                </CardTitle>
+                <CardDescription className="text-center">
+                  Please review your booking details and confirm
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="bg-muted/30 p-4 rounded-lg mb-6">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="h-16 w-16 rounded-md overflow-hidden">
+                        <img
+                          src={service?.serviceImage || "/placeholder.svg"}
+                          alt={service?.serviceName}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-lg">
+                          {service?.serviceName}
+                        </h3>
+                        <p className="text-muted-foreground text-sm">
+                          Provider: {service?.providerName}
+                        </p>
+                      </div>
+                      <div className="ml-auto">
+                        <p className="text-xl font-bold">
+                          ${service?.servicePrice}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-            {/* User Email */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Your Email
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("userEmail")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Hidden Fields */}
+                    <input type="hidden" {...register("serviceId")} />
+                    <input type="hidden" {...register("serviceName")} />
+                    <input type="hidden" {...register("serviceImage")} />
+                    <input type="hidden" {...register("servicePrice")} />
+                    <input type="hidden" {...register("serviceStatus")} />
 
-            {/* User Name */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Your Name
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("userName")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
+                    {/* Provider Information */}
+                    <div className="space-y-2">
+                      <Label htmlFor="providerName">Provider Name</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="providerName"
+                          readOnly
+                          {...register("providerName")}
+                          className="pl-10 bg-muted/50"
+                        />
+                      </div>
+                    </div>
 
-            {/* Service Date */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Service Date
-              </label>
-              <input
-                type="date"
-                {...register("serviceDate", {
-                  required: "Service date is required",
-                })}
-                className="input input-bordered w-full mt-1 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-              {errors.serviceDate && (
-                <span className="text-red-500 text-sm">
-                  {errors.serviceDate.message}
-                </span>
-              )}
-            </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="providerEmail">Provider Email</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="providerEmail"
+                          readOnly
+                          {...register("providerEmail")}
+                          className="pl-10 bg-muted/50"
+                        />
+                      </div>
+                    </div>
 
-            {/* Price */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Price
-              </label>
-              <input
-                type="text"
-                readOnly
-                {...register("servicePrice")}
-                className="input input-bordered w-full mt-1 focus:outline-none dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              />
-            </div>
+                    {/* User Information */}
+                    <div className="space-y-2">
+                      <Label htmlFor="userName">Your Name</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="userName"
+                          readOnly
+                          {...register("userName")}
+                          className="pl-10 bg-muted/50"
+                        />
+                      </div>
+                    </div>
 
-            {/* Special Instructions */}
-            <div className="col-span-1 sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Special Instructions
-              </label>
-              <textarea
-                placeholder="Any specific requests or instructions"
-                {...register("specialInstructions")}
-                className="textarea textarea-bordered w-full mt-1 dark:bg-gray-700 dark:text-white dark:border-gray-600"
-              ></textarea>
-            </div>
-          </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="userEmail">Your Email</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="userEmail"
+                          readOnly
+                          {...register("userEmail")}
+                          className="pl-10 bg-muted/50"
+                        />
+                      </div>
+                    </div>
 
-          <div className="flex justify-end gap-4 mt-8">
-            <Link
-              to={`/services/${id}`}
-              className="btn btn-error px-6 dark:bg-red-700 dark:text-white"
-            >
-              Cancel
-            </Link>
-            <button
-              type="submit"
-              className="btn btn-success px-6 dark:bg-green-700 dark:text-white"
-            >
-              Purchase
-            </button>
-          </div>
-        </form>
+                    {/* Service Date */}
+                    <div className="space-y-2">
+                      <Label htmlFor="serviceDate">Service Date</Label>
+                      <div className="relative">
+                        <Calendar className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="serviceDate"
+                          type="date"
+                          {...register("serviceDate", {
+                            required: "Service date is required",
+                          })}
+                          className="pl-10"
+                        />
+                      </div>
+                      {errors.serviceDate && (
+                        <Alert variant="destructive" className="py-2">
+                          <AlertDescription>
+                            {errors.serviceDate.message}
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                    </div>
+
+                    {/* Price */}
+                    <div className="space-y-2">
+                      <Label htmlFor="servicePrice">Price</Label>
+                      <div className="relative">
+                        <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="servicePrice"
+                          readOnly
+                          value={`$${service?.servicePrice}`}
+                          className="pl-10 bg-muted/50 font-semibold"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Special Instructions */}
+                  <div className="space-y-2">
+                    <Label htmlFor="specialInstructions">
+                      Special Instructions (Optional)
+                    </Label>
+                    <div className="relative">
+                      <FileText className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Textarea
+                        id="specialInstructions"
+                        placeholder="Any specific requests or instructions for the service provider"
+                        {...register("specialInstructions")}
+                        className="min-h-[120px] pl-10 pt-2"
+                      />
+                    </div>
+                  </div>
+
+                  <Separator className="my-6" />
+
+                  <div className="bg-muted/30 p-4 rounded-lg">
+                    <h3 className="font-semibold mb-4 flex items-center">
+                      <CheckCircle className="mr-2 h-5 w-5 text-primary" />
+                      Booking Summary
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Service:</span>
+                        <span>{service?.serviceName}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Price:</span>
+                        <span className="font-semibold">
+                          ${service?.servicePrice}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row justify-end gap-4 pt-4">
+                    <Button type="button" variant="outline" asChild>
+                      <Link to={`/services/${id}`}>Cancel</Link>
+                    </Button>
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="gap-2"
+                    >
+                      {isSubmitting ? (
+                        "Processing..."
+                      ) : (
+                        <>
+                          <CreditCard className="h-4 w-4" />
+                          Confirm Booking
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
       </div>
     </div>
   );
