@@ -251,7 +251,7 @@ export default function FAQ() {
                   (total, category) => total + category.questions.length,
                   0
                 )}{" "}
-                results for "{searchQuery}"
+                results for &quot;{searchQuery}&quot;
               </h2>
               {filteredFAQs.length > 0 ? (
                 filteredFAQs.map((category) => (
@@ -340,8 +340,8 @@ export default function FAQ() {
         >
           <h2 className="text-2xl font-bold mb-4">Still Have Questions?</h2>
           <p className="text-muted-foreground mb-6 max-w-xl mx-auto">
-            If you couldn't find the answer to your question, our support team
-            is here to help.
+            If you couldn&apos;t find the answer to your question, our support
+            team is here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild>

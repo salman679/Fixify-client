@@ -175,6 +175,7 @@ export default function AllServicesPage() {
                         <AvatarImage
                           src={service.providerImage || "/placeholder.svg"}
                           alt={service.providerName}
+                          className="h-full w-full object-cover"
                         />
                         <AvatarFallback>
                           {getInitials(service.providerName)}

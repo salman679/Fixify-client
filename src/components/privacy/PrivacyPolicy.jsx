@@ -317,7 +317,7 @@ export default function PrivacyPolicy() {
                 </ul>
                 <p>
                   To exercise these rights, please contact us using the
-                  information provided in the "Contact Us" section.
+                  information provided in the &qout;Contact Us&qout; section.
                 </p>
               </section>
 
@@ -366,7 +366,7 @@ export default function PrivacyPolicy() {
               <Separator className="my-8" />
 
               <section id="children-privacy">
-                <h2>Children's Privacy</h2>
+                <h2>Children&apos;s Privacy</h2>
                 <p>
                   Our services are not intended for children under the age of
                   18. We do not knowingly collect personal information from

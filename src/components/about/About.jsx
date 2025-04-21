@@ -233,6 +233,7 @@ export default function AboutUs() {
                     <Avatar className="h-24 w-24 mx-auto mb-4 border-2 border-primary/20">
                       <AvatarImage
                         src={member.image || "/placeholder.svg"}
+                        className="object-cover rounded-full h-full w-full"
                         alt={member.name}
                       />
                       <AvatarFallback>

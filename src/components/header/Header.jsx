@@ -1,12 +1,9 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Menu,
   Search,
   LogOut,
-  User,
   Plus,
   Settings,
   List,
@@ -378,7 +375,7 @@ export default function Header() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem asChild>
+                  {/* <DropdownMenuItem asChild>
                     <Link
                       to="/profile"
                       className="flex cursor-pointer items-center"
@@ -387,7 +384,7 @@ export default function Header() {
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator /> */}
                   <DropdownMenuItem
                     onClick={handleLogout}
                     className="cursor-pointer text-red-500 focus:text-red-500"

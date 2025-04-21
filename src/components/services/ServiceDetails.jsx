@@ -54,27 +54,6 @@ export default function ServiceDetails() {
       .substring(0, 2);
   };
 
-  // Mock reviews data (you can replace this with actual data)
-  const reviews = [
-    {
-      id: 1,
-      name: "Sarah Johnson",
-      avatar: "/placeholder.svg?height=40&width=40",
-      rating: 5,
-      date: "2023-10-15",
-      comment:
-        "Excellent service! Very professional and completed the job quickly.",
-    },
-    {
-      id: 2,
-      name: "Michael Brown",
-      avatar: "/placeholder.svg?height=40&width=40",
-      rating: 4,
-      date: "2023-09-28",
-      comment: "Good work overall. Would recommend for similar projects.",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
       <Helmet>
@@ -152,6 +131,7 @@ export default function ServiceDetails() {
                       <AvatarImage
                         src={service?.providerImage || "/placeholder.svg"}
                         alt={service?.providerName}
+                        className="object-cover"
                       />
                       <AvatarFallback>
                         {getInitials(service?.providerName)}
@@ -172,7 +152,9 @@ export default function ServiceDetails() {
                   <TabsList className="grid w-full grid-cols-3">
                     <TabsTrigger value="description">Description</TabsTrigger>
                     <TabsTrigger value="details">Details</TabsTrigger>
-                    <TabsTrigger value="reviews">Reviews</TabsTrigger>
+                    <TabsTrigger value="reviews">
+                      Reviews ({service.reviews.length})
+                    </TabsTrigger>
                   </TabsList>
                   <TabsContent value="description" className="pt-6">
                     <div className="prose dark:prose-invert max-w-none">
@@ -226,25 +208,26 @@ export default function ServiceDetails() {
                     </div>
                   </TabsContent>
                   <TabsContent value="reviews" className="pt-6">
-                    {reviews.length > 0 ? (
+                    {service?.reviews && service.reviews.length > 0 ? (
                       <div className="space-y-6">
-                        {reviews.map((review) => (
+                        {service.reviews.map((review, index) => (
                           <div
-                            key={review.id}
+                            key={index}
                             className="border-b pb-6 last:border-0"
                           >
                             <div className="flex items-center gap-3 mb-3">
                               <Avatar>
                                 <AvatarImage
-                                  src={review.avatar || "/placeholder.svg"}
-                                  alt={review.name}
+                                  src={review.userImage || "/placeholder.svg"}
+                                  alt={review.userName}
+                                  className="object-cover"
                                 />
                                 <AvatarFallback>
-                                  {getInitials(review.name)}
+                                  {getInitials(review.userName)}
                                 </AvatarFallback>
                               </Avatar>
                               <div>
-                                <p className="font-medium">{review.name}</p>
+                                <p className="font-medium">{review.userName}</p>
                                 <div className="flex items-center">
                                   <div className="flex">
                                     {[...Array(5)].map((_, i) => (

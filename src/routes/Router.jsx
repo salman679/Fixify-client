@@ -18,6 +18,7 @@ import ContactPage from "@/components/contact/ContactPage";
 import FAQ from "@/components/FAQ/FAQ";
 import PrivacyPolicy from "@/components/privacy/PrivacyPolicy";
 import TermsOfService from "@/components/terms-of-service/TermsOfService";
+import ServiceCategoryPage from "@/components/services/ServiceCategoryPage";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "services",
         element: <AllServicesPage />,
+      },
+      {
+        path: "/services/category/:category",
+        element: <ServiceCategoryPage />,
       },
       {
         path: "services/:id",

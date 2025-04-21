@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 export function TableOfContents({ items }) {
   const [activeId, setActiveId] = useState("");
@@ -55,3 +56,12 @@ export function TableOfContents({ items }) {
     </nav>
   );
 }
+
+TableOfContents.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+};
