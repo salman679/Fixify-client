@@ -213,15 +213,9 @@ export default function Header() {
                 </nav>
               </SheetContent>
             </Sheet>
-
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
-              {/* <img
-                src="/logo-removebg-preview (1).png"
-                alt="Fixify Logo"
-                className="h-10 w-10"
-              /> */}
-              <span className="hidden text-xl font-bold sm:inline-block dark:text-white">
+              <span className=" text-xl font-bold sm:inline-block dark:text-white">
                 Fixify
               </span>
             </Link>

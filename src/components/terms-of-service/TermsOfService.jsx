@@ -90,10 +90,11 @@ export default function TermsOfService() {
               <section id="introduction">
                 <h2>Introduction</h2>
                 <p>
-                  Welcome to Fixify. These Terms of Service ("Terms") govern
-                  your access to and use of the Fixify website, mobile
-                  applications, and services (collectively, the "Services").
-                  Please read these Terms carefully before using our Services.
+                  Welcome to Fixify. These Terms of Service (&quot;Terms&quot;)
+                  govern your access to and use of the Fixify website, mobile
+                  applications, and services (collectively, the
+                  &quot;Services&quot;). Please read these Terms carefully
+                  before using our Services.
                 </p>
                 <p>
                   By accessing or using our Services, you agree to be bound by
@@ -210,8 +211,8 @@ export default function TermsOfService() {
                 <p>
                   Service prices are set by individual service providers and may
                   vary based on factors such as complexity, duration, materials
-                  required, and the service provider's expertise. All prices are
-                  shown before you confirm your booking.
+                  required, and the service provider&apos;s expertise. All
+                  prices are shown before you confirm your booking.
                 </p>
                 <p>
                   Fixify charges a service fee for facilitating the connection
@@ -265,7 +266,7 @@ export default function TermsOfService() {
                     of any local, state, national, or international law
                   </li>
                   <li>
-                    Violating or infringing other people's intellectual
+                    Violating or infringing other people&apos;s intellectual
                     property, privacy, publicity, or other legal rights
                   </li>
                   <li>
@@ -331,11 +332,12 @@ export default function TermsOfService() {
               <section id="disclaimer">
                 <h2>Disclaimer of Warranties</h2>
                 <p>
-                  THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE"
-                  BASIS, WITHOUT ANY WARRANTIES OF ANY KIND, EITHER EXPRESS OR
-                  IMPLIED. FIXIFY DISCLAIMS ALL WARRANTIES, INCLUDING, BUT NOT
-                  LIMITED TO, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR
-                  A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+                  THE SERVICES ARE PROVIDED ON AN &quot;AS IS&quot; AND &quot;AS
+                  AVAILABLE&quot; BASIS, WITHOUT ANY WARRANTIES OF ANY KIND,
+                  EITHER EXPRESS OR IMPLIED. FIXIFY DISCLAIMS ALL WARRANTIES,
+                  INCLUDING, BUT NOT LIMITED TO, IMPLIED WARRANTIES OF
+                  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
+                  NON-INFRINGEMENT.
                 </p>
                 <p>
                   FIXIFY DOES NOT WARRANT THAT THE SERVICES WILL BE
@@ -379,10 +381,10 @@ export default function TermsOfService() {
                   </li>
                 </ul>
                 <p>
-                  IN NO EVENT SHALL FIXIFY'S AGGREGATE LIABILITY FOR ALL CLAIMS
-                  RELATED TO THE SERVICES EXCEED THE GREATER OF ONE HUNDRED
-                  DOLLARS ($100) OR THE AMOUNTS PAID BY YOU TO FIXIFY FOR THE
-                  PAST SIX MONTHS FOR THE SERVICES AT ISSUE.
+                  IN NO EVENT SHALL FIXIFY&apos;S AGGREGATE LIABILITY FOR ALL
+                  CLAIMS RELATED TO THE SERVICES EXCEED THE GREATER OF ONE
+                  HUNDRED DOLLARS ($100) OR THE AMOUNTS PAID BY YOU TO FIXIFY
+                  FOR THE PAST SIX MONTHS FOR THE SERVICES AT ISSUE.
                 </p>
               </section>
 
@@ -456,9 +458,9 @@ export default function TermsOfService() {
                 <p>
                   We reserve the right, at our sole discretion, to modify or
                   replace these Terms at any time. If a revision is material, we
-                  will provide at least 30 days' notice prior to any new terms
-                  taking effect. What constitutes a material change will be
-                  determined at our sole discretion.
+                  will provide at least 30 days&apos; notice prior to any new
+                  terms taking effect. What constitutes a material change will
+                  be determined at our sole discretion.
                 </p>
                 <p>
                   By continuing to access or use our Services after those
